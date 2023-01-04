@@ -32,7 +32,8 @@ public class LobbyView : MonoBehaviour
     }
     public void displayLobbies(List<Lobby> lobbies)
     {
-        if(lobbies != null && lobbies.Count > 0)
+        DevTools.DestroyAllChildren(lobbyGrid.gameObject);
+        if (lobbies != null && lobbies.Count > 0)
         {
             foreach (var lobbie in lobbies)
             {

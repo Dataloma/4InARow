@@ -7,6 +7,13 @@ namespace DeveloperTools
 {
     public class DevTools
     {
+        public static void DestroyAllChildren(GameObject parent)
+        {
+            foreach (Transform child in parent.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+        }
         public static GameObject FindGameObject(string name)
         {
             var obj = GameObject.Find(name);

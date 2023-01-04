@@ -4,15 +4,20 @@ using Unity.Netcode;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using DeveloperTools;
+using static UnityEditor.Progress;
+using Unity.Services.Authentication;
+using System.Threading.Tasks;
 
 public class LobbyManager : NetworkBehaviour
 {
-    string a;
+    
     LobbyView lobbyView;
+    private Lobby mylobbie = null;
     // Start is called before the first frame update
     void Awake()
     {
         lobbyView = DevTools.FindGameObject("MainMenu/LobbyView").GetComponent<LobbyView>();
+        Debug.Log(lobbyView);
         Screen.SetResolution(1440, 900, FullScreenMode.MaximizedWindow, 60);
         Debug.Log("Res Set");
     }
@@ -21,13 +26,16 @@ public class LobbyManager : NetworkBehaviour
 
     public async void quickJoin()
     {
+        await leaveLobby();
         QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
         options.Filter = new List<QueryFilter>();
         
         try
         {
-            await Lobbies.Instance.QuickJoinLobbyAsync(options);
-            Debug.Log("Joined Lobby: " + lobbyView.selectedLobby.Id);
+            mylobbie = await Lobbies.Instance.QuickJoinLobbyAsync(options);
+            
+            Debug.Log("Joined Lobby: " + mylobbie.Id);
+            lobbyView.displayLobbyInfo(mylobbie);
         }
         catch (LobbyServiceException ex)
         {
@@ -43,7 +51,10 @@ public class LobbyManager : NetworkBehaviour
         options.IsPrivate = false;
         try
         {
-        await Lobbies.Instance.CreateLobbyAsync("TestLobby", 2, options );
+            mylobbie = await Lobbies.Instance.CreateLobbyAsync("TestLobby", 2, options);
+            InvokeRepeating("heartbeat", 0f, 27f);
+            Debug.Log("Joined Lobby: " + mylobbie.Id);
+            lobbyView.displayLobbyInfo(mylobbie);
         }
         catch (LobbyServiceException ex)
         {
@@ -56,6 +67,7 @@ public class LobbyManager : NetworkBehaviour
     {
         var options = new QueryLobbiesOptions();
         options.Count = 10;
+        
 
         try
         {
@@ -70,8 +82,24 @@ public class LobbyManager : NetworkBehaviour
 
     public async void joinSelectedLobby()
     {
+        await leaveLobby();
         await Lobbies.Instance.JoinLobbyByIdAsync(lobbyView.selectedLobby.Id);
         Debug.Log("Joined Lobby: " + lobbyView.selectedLobby.Id);
+    }
+
+    private void heartbeat()
+    {
+        LobbyService.Instance.SendHeartbeatPingAsync(mylobbie.Id);
+        Debug.Log("IT WORKS!!!");
+    }
+    private async Task leaveLobby()
+    {
+        if (mylobbie != null){
+            await LobbyService.Instance.RemovePlayerAsync(mylobbie.Id, AuthenticationService.Instance.PlayerId);
+            mylobbie= null;
+        }
+
+
     }
 
 }
