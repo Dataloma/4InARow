@@ -23,7 +23,7 @@ public class UnityServicesManager : MonoBehaviour
 
             if(AuthenticationService.Instance.SessionTokenExists)
             {
-                await AuthenticationService.Instance.SignInWithSessionTokenAsync();
+                //await AuthenticationService.Instance.SignInWithSessionTokenAsync();
                 Debug.Log("Logging in with cached Session Token: " + AuthenticationService.Instance.AccessToken);
                 mainMenu.displayProfile(AuthenticationService.Instance.Profile);
             }
