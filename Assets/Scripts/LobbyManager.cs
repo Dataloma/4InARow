@@ -7,12 +7,17 @@ using DeveloperTools;
 using static UnityEditor.Progress;
 using Unity.Services.Authentication;
 using System.Threading.Tasks;
+using System.Collections;
+using System;
+using System.Runtime.CompilerServices;
 
 public class LobbyManager : NetworkBehaviour
 {
     
     LobbyView lobbyView;
     private Lobby mylobbie = null;
+    private Coroutine mylobbieUpdate = null;
+    private Coroutine mylobbieHeartbeat = null;
     // Start is called before the first frame update
     void Awake()
     {
@@ -20,6 +25,7 @@ public class LobbyManager : NetworkBehaviour
         Debug.Log(lobbyView);
         Screen.SetResolution(1440, 900, FullScreenMode.MaximizedWindow, 60);
         Debug.Log("Res Set");
+        StartCoroutine(updateMylobbie());
     }
 
     
@@ -47,12 +53,13 @@ public class LobbyManager : NetworkBehaviour
 
     public async void createLobby() 
     {
+        await leaveLobby();
         var options = new CreateLobbyOptions();
         options.IsPrivate = false;
         try
         {
             mylobbie = await Lobbies.Instance.CreateLobbyAsync("TestLobby", 2, options);
-            InvokeRepeating("heartbeat", 0f, 27f);
+            startHeartbeat();
             Debug.Log("Joined Lobby: " + mylobbie.Id);
             lobbyView.displayLobbyInfo(mylobbie);
         }
@@ -87,10 +94,50 @@ public class LobbyManager : NetworkBehaviour
         Debug.Log("Joined Lobby: " + lobbyView.selectedLobby.Id);
     }
 
-    private void heartbeat()
+
+    //Lobby needs heartbeat to stay active
+    private IEnumerator heartbeat()
     {
-        LobbyService.Instance.SendHeartbeatPingAsync(mylobbie.Id);
-        Debug.Log("IT WORKS!!!");
+        while(true)
+        {
+            if(mylobbie.HostId == AuthenticationService.Instance.PlayerId)
+            {
+                LobbyService.Instance.SendHeartbeatPingAsync(mylobbie.Id);
+                Debug.Log("HeartBeat");
+            }
+            yield return new WaitForSeconds(3);
+        }
+        
+    }
+    private void startHeartbeat()
+    {
+        mylobbieHeartbeat=StartCoroutine(heartbeat());
+    }
+    private void stopHeartbeat()
+    {
+        try { 
+        StopCoroutine(mylobbieHeartbeat);
+        mylobbieHeartbeat=null;
+        }
+        catch
+        {
+            return;
+        }
+    }
+
+    private IEnumerator updateMylobbie()
+    {
+        while (true)
+        {
+            _ = Task.Run(async () =>
+                mylobbie = await LobbyService.Instance.GetLobbyAsync(mylobbie.Id));
+            yield return new WaitForSeconds(2);
+        }
+    }
+    private async Task test()
+    {
+        await Task.Delay(2000);
+        Debug.Log("Result");
     }
     private async Task leaveLobby()
     {
@@ -98,6 +145,8 @@ public class LobbyManager : NetworkBehaviour
             await LobbyService.Instance.RemovePlayerAsync(mylobbie.Id, AuthenticationService.Instance.PlayerId);
             mylobbie= null;
         }
+        stopHeartbeat();
+
 
 
     }
