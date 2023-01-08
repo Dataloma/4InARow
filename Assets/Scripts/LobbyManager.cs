@@ -25,7 +25,8 @@ public class LobbyManager : NetworkBehaviour
         Debug.Log(lobbyView);
         Screen.SetResolution(1440, 900, FullScreenMode.MaximizedWindow, 60);
         Debug.Log("Res Set");
-        StartCoroutine(updateMylobbie());
+        mylobbieUpdate=StartCoroutine(startUpdateMylobbie());
+        
     }
 
     
@@ -100,11 +101,8 @@ public class LobbyManager : NetworkBehaviour
     {
         while(true)
         {
-            if(mylobbie.HostId == AuthenticationService.Instance.PlayerId)
-            {
-                LobbyService.Instance.SendHeartbeatPingAsync(mylobbie.Id);
-                Debug.Log("HeartBeat");
-            }
+            LobbyService.Instance.SendHeartbeatPingAsync(mylobbie.Id);
+            Debug.Log("HeartBeat");
             yield return new WaitForSeconds(3);
         }
         
@@ -125,19 +123,33 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
-    private IEnumerator updateMylobbie()
+    private async Task updateMylobbie()
+    {
+        if (mylobbie == null) { return; }
+        mylobbie = await LobbyService.Instance.GetLobbyAsync(mylobbie.Id);
+        if (mylobbie.HostId == AuthenticationService.Instance.PlayerId)
+        {
+            if (mylobbieHeartbeat != null)
+                startHeartbeat();
+
+            if(mylobbie.AvailableSlots == 0)
+            {
+                startmatch();
+            }
+        }
+    }
+    private IEnumerator startUpdateMylobbie()
     {
         while (true)
         {
-            _ = Task.Run(async () =>
-                mylobbie = await LobbyService.Instance.GetLobbyAsync(mylobbie.Id));
+            _ = updateMylobbie();
             yield return new WaitForSeconds(2);
         }
     }
-    private async Task test()
+    
+    private void startmatch()
     {
-        await Task.Delay(2000);
-        Debug.Log("Result");
+        Debug.Log("startmatch!!!!");
     }
     private async Task leaveLobby()
     {
