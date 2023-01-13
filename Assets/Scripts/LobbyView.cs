@@ -24,10 +24,10 @@ public class LobbyView : MonoBehaviour
         lobbyInfo = DevTools.FindTransform("LobbyInfo", transform);
         lobbyGrid = DevTools.FindTransform("Grid", transform);
         
-        lobbyID =   DevTools.FindTransform("LobbyID/Value", lobbyInfo).GetComponent<Text>();
+        lobbyID   =   DevTools.FindTransform("LobbyID/Value", lobbyInfo).GetComponent<Text>();
         lobbyName = DevTools.FindTransform("Name/Value", lobbyInfo).GetComponent<Text>();
-        slots =     DevTools.FindTransform("Slots/Value", lobbyInfo).GetComponent<Text>();
-        player =    DevTools.FindTransform("Player/Value", lobbyInfo).GetComponent<Text>();
+        slots     =     DevTools.FindTransform("Slots/Value", lobbyInfo).GetComponent<Text>();
+        player    =    DevTools.FindTransform("Player/Value", lobbyInfo).GetComponent<Text>();
 
     }
     public void displayLobbies(List<Lobby> lobbies)

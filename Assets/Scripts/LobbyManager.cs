@@ -4,7 +4,6 @@ using Unity.Netcode;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using DeveloperTools;
-using static UnityEditor.Progress;
 using Unity.Services.Authentication;
 using System.Threading.Tasks;
 using System.Collections;
@@ -18,13 +17,14 @@ public class LobbyManager : NetworkBehaviour
     private Lobby mylobbie = null;
     private Coroutine mylobbieUpdate = null;
     private Coroutine mylobbieHeartbeat = null;
+    private NetworkManagerScript netManagerScript;
     // Start is called before the first frame update
     void Awake()
     {
         lobbyView = DevTools.FindGameObject("MainMenu/LobbyView").GetComponent<LobbyView>();
-        Debug.Log(lobbyView);
+        netManagerScript = DevTools.FindGameObject("NetworkManager/Scripts").GetComponent<NetworkManagerScript>();
         Screen.SetResolution(1440, 900, FullScreenMode.MaximizedWindow, 60);
-        Debug.Log("Res Set");
+        
         mylobbieUpdate=StartCoroutine(startUpdateMylobbie());
         
     }
@@ -90,8 +90,11 @@ public class LobbyManager : NetworkBehaviour
 
     public async void joinSelectedLobby()
     {
-        await leaveLobby();
-        await Lobbies.Instance.JoinLobbyByIdAsync(lobbyView.selectedLobby.Id);
+        if(lobbyView.selectedLobby.Id != null)
+        {
+            await leaveLobby();
+            await Lobbies.Instance.JoinLobbyByIdAsync(lobbyView.selectedLobby.Id);
+        }
         Debug.Log("Joined Lobby: " + lobbyView.selectedLobby.Id);
     }
 
@@ -103,7 +106,7 @@ public class LobbyManager : NetworkBehaviour
         {
             LobbyService.Instance.SendHeartbeatPingAsync(mylobbie.Id);
             Debug.Log("HeartBeat");
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(10);
         }
         
     }
@@ -129,12 +132,25 @@ public class LobbyManager : NetworkBehaviour
         mylobbie = await LobbyService.Instance.GetLobbyAsync(mylobbie.Id);
         if (mylobbie.HostId == AuthenticationService.Instance.PlayerId)
         {
-            if (mylobbieHeartbeat != null)
+            if (mylobbieHeartbeat == null)
                 startHeartbeat();
+        }
 
-            if(mylobbie.AvailableSlots == 0)
+        if (mylobbie.AvailableSlots == 0)
+        {
+            if (mylobbie.HostId == AuthenticationService.Instance.PlayerId)
             {
-                startmatch();
+                netManagerScript.startAsHost();
+                Debug.Log("started host");
+                StopCoroutine(mylobbieHeartbeat);
+                StopCoroutine(mylobbieUpdate);
+            }
+            else
+            {
+
+                netManagerScript.startClient();
+                StopCoroutine(mylobbieUpdate);
+
             }
         }
     }
@@ -143,7 +159,7 @@ public class LobbyManager : NetworkBehaviour
         while (true)
         {
             _ = updateMylobbie();
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(4);
         }
     }
     

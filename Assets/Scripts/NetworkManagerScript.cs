@@ -1,25 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
-public class NetworkManager : MonoBehaviour
+public class NetworkManagerScript : MonoBehaviour
 {
+    [SerializeField] private string Game_SceneName;
+    private NetworkManager netManager;
     // Start is called before the first frame update
-    public InputField RoomNameInput;
-
-
-
     void Start()
     {
-        //Connect();
-        Debug.Log("I'm Okay");
+        netManager = GetComponentInParent<NetworkManager>();
         
     }
 
-    /*public void Connect()
+    public void startAsHost()
     {
-        //PhotonNetwork.ConnectUsingSettings();
+        netManager.StartHost();
+        netManager.SceneManager.LoadScene(Game_SceneName, LoadSceneMode.Single);
     }
+
+    public void startClient()
+    {
+        netManager.StartClient();
+    }
+
+    
+    /*
 
     public void Play()
     {
