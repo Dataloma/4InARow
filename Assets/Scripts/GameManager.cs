@@ -1,6 +1,8 @@
+using DeveloperTools;
+using System;
 using Unity.Netcode;
 using UnityEngine;
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public enum playerColor
     {
@@ -8,17 +10,26 @@ public class GameManager : MonoBehaviour
         Yellow = 2
     }
 
-    public playerColor myColor;
-    public bool myTurn = false;
+    public bool myTurn { get; private set; } = false;
+    private playerColor myColor;
 
-    public bool redturn = true;
-    public float cooldown;
-    public float lastPlayed;
-    public GameObject redWon;
-    public GameObject yellowWon;
-    const int heightOfBoard = 6;
-    const int lenghtOfBoard = 7;
-    public int[,] BoardArray = new int[lenghtOfBoard, heightOfBoard];
+    private NetworkManager netManager;
+    private GameObject PiecesContainer;
+
+    private GameObject redWon;
+    private GameObject yellowWon;
+
+    [SerializeField]
+    private GameObject redPiece;
+    [SerializeField]
+    private GameObject yellowPiece;
+
+    public float cooldown { get; private set; }
+    public float lastPlayed { get; private set; }
+
+    public const int lenghtOfBoard = 7;
+    public const int heightOfBoard = 6;
+    private int[,] BoardArray = new int[lenghtOfBoard, heightOfBoard];
     /*
     {
         {0, 0, 0, 0, 0, 0 },
@@ -30,106 +41,124 @@ public class GameManager : MonoBehaviour
         {0, 0, 0, 0, 0, 0 }
     };
     */
-    /*void Start()
-    {
-        redWon.gameObject.SetActive(false);
-        yellowWon.gameObject.SetActive(false);
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            myColor = (playerColor)Random.Range(1, 3);
-            Debug.Log("Your Color Is " + myColor.ToString() + "!");
-            photonView.RPC("setPlayerColor", RpcTarget.Others, (int)myColor == 1 ? playerColor.Yellow : playerColor.Red);
-
-            if (myColor == playerColor.Red)
-            {
-                myTurn = true;
-                Debug.Log("It is your turn!");
-                photonView.RPC("setPlayerTurn", RpcTarget.Others, false);
-            }
-            else
-            {
-                myTurn = false;
-                Debug.Log("It is your Opponent's turn!");
-                photonView.RPC("setPlayerTurn", RpcTarget.Others, true);
-            }
-        }
-
-    }
-
     
-
-    [PunRPC]
-    public void setPlayerColor(playerColor color)
+    private void Awake()
     {
-        myColor = color;
-        Debug.Log("Your Color Is " + myColor.ToString() + "!");
+        redWon = DevTools.FindGameObject("Canvas/RedWon");
+        yellowWon = DevTools.FindGameObject("Canvas/YellowWon");
+        PiecesContainer = DevTools.FindGameObject("Board/Pieces");
+        redWon.SetActive(false);
+        yellowWon.SetActive(false);
 
-    }
-    [PunRPC]
-    public void setPlayerTurn(bool turn)
-    {
-        myTurn = turn;
-        if (myTurn)
+        netManager = DevTools.FindGameObject("NetworkManager").GetComponent<NetworkManager>();
+        if (netManager.IsHost)
         {
-            Debug.Log("It is your turn!");
+            myColor = playerColor.Red;
+            myTurn = true;
+            Debug.Log("Hosting");
         }
         else
         {
-            Debug.Log("It is your Opponent's turn!");
-        };
+            myColor = playerColor.Yellow;
+            myTurn = false;
+        }
+
     }
-    
-    
-    [PunRPC]
     public void resetCooldown()
     {
         lastPlayed = Time.time;
     }
-    [PunRPC]
-    public void redWins(){redWon.SetActive(true); }
-    [PunRPC]
-    public void yellowWins() {yellowWon.SetActive(true); }
-    [PunRPC]
-    public void log(string str) {Debug.Log(str); }
 
+    void switchTurn() {
+        if (myTurn) { myTurn = false; }
+        else { myTurn = true; }
+        resetCooldown();
+    }
+        
 
-    public void switchTurns()
+    [ServerRpc]
+    public void testServerRpc()
     {
-        if (!myTurn)
+        testServerClientRpc();
+    }
+    [ClientRpc]
+    public void testServerClientRpc() 
+    {
+        Debug.Log("private works");
+    }
+
+    
+    private void redWins() { redWon.SetActive(true); }
+    private void yellowWins() { yellowWon.SetActive(true); }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void registerPieceServerRpc(int column)
+    {
+        for (int row = 0; row < heightOfBoard - 1; row++)
         {
-            myTurn = true;
-            Debug.Log("It is your turn!");
-            photonView.RPC("setPlayerTurn", RpcTarget.Others, false);
+
+            if (BoardArray[column, row] == 0)
+            {
+                if (myTurn)
+                {
+                    
+                    BoardArray[column, row] = (int)myColor;
+                    spawnPiece(myColor, (float)(column - 3) * 2.5f, 8.5f);
+                    registerPieceClientRpc();
+                    WinCheck(myColor);
+
+                }
+                else
+                {
+                    BoardArray[column, row] = (int)myColor+1;
+                    spawnPiece(myColor+1, (float)(column - 3) * 2.5f, 8.5f);
+                    registerPieceClientRpc();
+                    WinCheck(myColor+1);
+                }
+                break;
+            }
+        }
+        
+    }
+    [ClientRpc]
+    public void registerPieceClientRpc()
+    {
+        
+        resetCooldown();
+        switchTurn();
+    }
+
+    [ServerRpc]
+    private void winServerRpc(playerColor color)
+    {
+        winClientRpc(color);
+    }
+    [ClientRpc]
+    private void winClientRpc(playerColor color)
+    {
+        if (color == playerColor.Red)
+        {
+            redWins();
         }
         else
         {
-            myTurn = false;
-            Debug.Log("It is your Opponent's turn!");
-            photonView.RPC("setPlayerTurn", RpcTarget.Others, true);
+            yellowWins();
         }
     }
-
-
-    public void WinCheck(playerColor player_color)
+    private void WinCheck(playerColor player_color)
     {
-        int playerNum = (int)player_color;
-        //horizontal
-        for(int x = 0; x < lenghtOfBoard - 3; x++)
-        {
-            for(int y = 0; y < heightOfBoard; y++)
-            {
-                if(BoardArray[x, y] == playerNum && BoardArray[x+1, y] == playerNum && BoardArray[x+2, y] == playerNum && BoardArray[x+3, y] == playerNum)
-                {
-                    if (playerNum == 1)
-                    {
-                        photonView.RPC("redWins", RpcTarget.All);
-                    }
+        
 
-                    if (playerNum == 2)
-                    {
-                        photonView.RPC("yellowWins", RpcTarget.All);
-                    }
+        //horizontal
+        for (int y = 0; y < heightOfBoard; y++)
+        {
+            for (int x = 0; x < lenghtOfBoard - 3; x++)
+            {
+                
+                if (BoardArray[x, y] == (int)player_color && BoardArray[x + 1, y] == (int)player_color && BoardArray[x + 2, y] == (int)player_color && BoardArray[x + 3, y] == (int)player_color)
+                {
+                    winServerRpc(player_color); 
                 }
             }
         }
@@ -139,61 +168,52 @@ public class GameManager : MonoBehaviour
         {
             for (int y = 0; y < heightOfBoard - 3; y++)
             {
-                if (BoardArray[x, y] == playerNum && BoardArray[x, y+1] == playerNum && BoardArray[x, y+2] == playerNum && BoardArray[x, y+3] == playerNum)
+                if (BoardArray[x, y] == (int)player_color && BoardArray[x, y + 1] == (int)player_color && BoardArray[x, y + 2] == (int)player_color && BoardArray[x, y + 3] == (int)player_color)
                 {
-                    if (playerNum == 1)
-                    {
-                        photonView.RPC("redWins", RpcTarget.All);
-                    }
-
-                    if (playerNum == 2)
-                    {
-                        photonView.RPC("yellowWins", RpcTarget.All);
-                    }
+                    winServerRpc(player_color);
                 }
             }
         }
 
         //y=x
-        for (int x = 0; x < lenghtOfBoard - 3; x++)
+        for (int y = 0; y < heightOfBoard - 3; y++)
         {
-            for (int y = 0; y < heightOfBoard - 3; y++)
+            for (int x = 0; x < lenghtOfBoard - 3; x++)
             {
-                if (BoardArray[x, y] == playerNum && BoardArray[x + 1, y + 1] == playerNum && BoardArray[x + 2, y + 2] == playerNum && BoardArray[x + 3, y + 3] == playerNum)
+                if (BoardArray[x, y] == (int)player_color && BoardArray[x + 1, y + 1] == (int)player_color && BoardArray[x + 2, y + 2] == (int)player_color && BoardArray[x + 3, y + 3] == (int)player_color)
                 {
-                    if (playerNum == 1)
-                    {
-                        photonView.RPC("redWins", RpcTarget.All);
-                    }
-
-                    if (playerNum == 2)
-                    {
-                        photonView.RPC("yellowWins", RpcTarget.All);
-                    }
+                    winServerRpc(player_color);
                 }
             }
         }
 
         //y=-x
-        for (int x = 0; x < lenghtOfBoard - 3; x++)
+        for (int y = 0; y < heightOfBoard - 3; y++)
         {
-            for (int y = 0; y < heightOfBoard - 3; y++)
+            for (int x = 0; x < lenghtOfBoard - 3; x++)
             {
-                if (BoardArray[x, y + 3] == playerNum && BoardArray[x + 1, y + 2] == playerNum && BoardArray[x + 2, y + 1] == playerNum && BoardArray[x + 3, y] == playerNum)
+                if (BoardArray[x, y + 3] == (int)player_color && BoardArray[x + 1, y + 2] == (int)player_color && BoardArray[x + 2, y + 1] == (int)player_color && BoardArray[x + 3, y] == (int)player_color)
                 {
-                    if (playerNum == 1)
-                    {
-                        photonView.RPC("redWins", RpcTarget.All);
-                    }
-
-                    if (playerNum == 2)
-                    {
-                        photonView.RPC("yellowWins", RpcTarget.All);
-                    }
+                    winServerRpc(player_color);
                 }
             }
         }
     }
 
-    */
+    
+    private void spawnPiece(playerColor color, float x, float y)
+    {
+        GameObject piece;
+        if(color == playerColor.Yellow)
+        {
+            piece = Instantiate(yellowPiece, new Vector3(x,y,0), Quaternion.identity, PiecesContainer.transform);
+        }
+        else
+        {
+            piece = Instantiate(redPiece, new Vector3(x, y, 0), Quaternion.identity, PiecesContainer.transform);
+
+        }
+        piece.GetComponent<NetworkObject>().Spawn();
+    }
+   
 }
