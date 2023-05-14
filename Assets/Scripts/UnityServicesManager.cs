@@ -4,6 +4,8 @@ using Unity.Services.Core;
 using Unity.Services.Core.Environments;
 using Unity.Services.Authentication;
 using DeveloperTools;
+using System.Threading.Tasks;
+
 public class UnityServicesManager : MonoBehaviour
 {
     MainMenuManager mainMenu;
@@ -13,7 +15,12 @@ public class UnityServicesManager : MonoBehaviour
         PlayerPrefs.SetString("Test", "Testicles");
     }
         
-    async void Start()
+    void Start()
+    {
+        _ = startUnityServices();
+    }
+
+    private async Task startUnityServices()
     {
         try
         {
@@ -21,9 +28,10 @@ public class UnityServicesManager : MonoBehaviour
             setupEvents();
 
 
-            if(AuthenticationService.Instance.SessionTokenExists)
+            if (AuthenticationService.Instance.SessionTokenExists)
             {
-                //await AuthenticationService.Instance.SignInWithSessionTokenAsync();
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
                 Debug.Log("Logging in with cached Session Token: " + AuthenticationService.Instance.AccessToken);
                 mainMenu.displayProfile(AuthenticationService.Instance.Profile);
             }
@@ -32,7 +40,6 @@ public class UnityServicesManager : MonoBehaviour
         {
             Debug.LogException(e);
         }
-        
     }
 
     public async void loginAnonymously()
