@@ -40,7 +40,7 @@ public class LobbyManager : NetworkBehaviour
         try
         {
             mylobbie = await Lobbies.Instance.QuickJoinLobbyAsync(options);
-            
+            await updateMylobbie();
             Debug.Log("Joined Lobby: " + mylobbie.Id);
             lobbyView.displayLobbyInfo(mylobbie);
         }
@@ -93,7 +93,8 @@ public class LobbyManager : NetworkBehaviour
         if(lobbyView.selectedLobby.Id != null)
         {
             await leaveLobby();
-            await Lobbies.Instance.JoinLobbyByIdAsync(lobbyView.selectedLobby.Id);
+            mylobbie =  await Lobbies.Instance.JoinLobbyByIdAsync(lobbyView.selectedLobby.Id);
+            await updateMylobbie();
         }
         Debug.Log("Joined Lobby: " + lobbyView.selectedLobby.Id);
     }

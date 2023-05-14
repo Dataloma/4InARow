@@ -3,6 +3,10 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using System.Runtime.CompilerServices;
+using DeveloperTools;
+using System.Collections;
+using Unity.Services.Lobbies;
 
 public class NetworkManagerScript : MonoBehaviour
 {
@@ -12,6 +16,8 @@ public class NetworkManagerScript : MonoBehaviour
     void Start()
     {
         netManager = GetComponentInParent<NetworkManager>();
+        DontDestroyOnLoad(transform.parent);
+        
         
     }
 
@@ -19,54 +25,19 @@ public class NetworkManagerScript : MonoBehaviour
     {
         netManager.StartHost();
         netManager.SceneManager.LoadScene(Game_SceneName, LoadSceneMode.Single);
-    }
 
+    }
+    
     public void startClient()
     {
+        Debug.Log("Starting Client");
         netManager.StartClient();
     }
-
     
-    /*
-
-    public void Play()
+    //This is temporary for testing
+    public void startGame()
     {
-
-        PhotonNetwork.JoinOrCreateRoom(RoomNameInput.text,
-                                       new RoomOptions { MaxPlayers = 2},
-                                       new TypedLobby(RoomNameInput.text, LobbyType.Default)
-                                       );
-
+        netManager.StartHost();
+        
     }
-
-    public override void OnJoinRoomFailed(short returnCode,string message)
-    {
-        Debug.Log("Join Room failed");
-    }
-    public override void OnCreatedRoom()
-    {
-        Debug.Log("Created a Room!");
-    }
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("Joined a Room!");
-        if (PhotonNetwork.IsMasterClient == false)
-        {
-            Debug.Log("You're not the master client");
-            PhotonView photonView = PhotonView.Get(this);
-            photonView.RPC("LoadArena", RpcTarget.MasterClient);
-        }
-    }
-
-    [PunRPC]
-    void LoadArena()
-    {
-        Debug.Log("Load Arena");
-        PhotonNetwork.LoadLevel("Game");    
-    }
-    void Awake()
-    {
-        PhotonNetwork.AutomaticallySyncScene = true;
-    }
-    */
 }
