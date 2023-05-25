@@ -13,6 +13,7 @@
     "com.unity.multiplayer.tools": "1.0.0",
     "com.unity.netcode.gameobjects": "1.1.0",
     "com.unity.remote-config": "3.2.2",
+    "com.unity.render-pipelines.universal": "12.1.8",
     "com.unity.services.analytics": "4.2.0",
     "com.unity.services.authentication": "2.3.1",
     "com.unity.services.ccd.management": "2.1.0",
