@@ -15,6 +15,7 @@ public class Hit : NetworkBehaviour
     }
     public void OnMouseDown()
     {
+        Debug.Log("PPP");
         if (gm.myTurn)
         {
             if (Time.time - gm.lastPlayed >= gm.cooldown)

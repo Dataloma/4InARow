@@ -95,7 +95,7 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void registerPieceServerRpc(int column)
     {
-        for (int row = 0; row < heightOfBoard - 1; row++)
+        for (int row = 0; row < heightOfBoard; row++)
         {
 
             if (BoardArray[column, row] == 0)
@@ -104,7 +104,7 @@ public class GameManager : NetworkBehaviour
                 {
                     
                     BoardArray[column, row] = (int)myColor;
-                    spawnPiece(myColor, (float)(column - 3) * 2.5f, 8.5f);
+                    spawnPiece(myColor, ((float)(column - 3) * 0.41f) + 495.524f, 28f, 14.8858f);
                     registerPieceClientRpc();
                     WinCheck(myColor);
 
@@ -112,7 +112,7 @@ public class GameManager : NetworkBehaviour
                 else
                 {
                     BoardArray[column, row] = (int)myColor+1;
-                    spawnPiece(myColor+1, (float)(column - 3) * 2.5f, 8.5f);
+                    spawnPiece(myColor+1, (float)(column - 3) * 0.41f + 495.524f, 28f, 14.8858f);
                     registerPieceClientRpc();
                     WinCheck(myColor+1);
                 }
@@ -201,16 +201,16 @@ public class GameManager : NetworkBehaviour
     }
 
     
-    private void spawnPiece(playerColor color, float x, float y)
+    private void spawnPiece(playerColor color, float x, float y, float z)
     {
         GameObject piece;
         if(color == playerColor.Yellow)
         {
-            piece = Instantiate(yellowPiece, new Vector3(x,y,0), Quaternion.identity, PiecesContainer.transform);
+            piece = Instantiate(yellowPiece, new Vector3(x,y,z), Quaternion.Euler(new Vector3(-90, 0, 0)), PiecesContainer.transform);
         }
         else
         {
-            piece = Instantiate(redPiece, new Vector3(x, y, 0), Quaternion.identity, PiecesContainer.transform);
+            piece = Instantiate(redPiece, new Vector3(x, y, z), Quaternion.Euler(new Vector3(-90, 0, 0)), PiecesContainer.transform);
 
         }
         piece.GetComponent<NetworkObject>().Spawn();
