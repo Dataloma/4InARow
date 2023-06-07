@@ -1,0 +1,428 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed5864476f84ce4b85454db09ca4eaa, type: 3}
+  m_Name: graph_0
+  m_EditorClassIdentifier: 
+  AssetPath: Assets/Materials/Dirt With Pebbles Stylized 3.sbsar
+  OutputPath: Assets/Materials/Dirt With Pebbles Stylized 3_graph_0
+  RawData: {fileID: -244192453324840774, guid: 880383567ddb72649b58b08ed484b032, type: 3}
+  Name: graph_0
+  IsRoot: 1
+  FlagedForDelete: 0
+  GUID: 7c796dcb-6867-4a30-975c-ae7dcc0b9c30
+  Index: 0
+  Input:
+  - rid: 2056182834072911936
+  - rid: 2056182834072911937
+  - rid: 2056182834072911938
+  - rid: 2056182834072911939
+  - rid: 2056182834072911940
+  - rid: 2056182834072911941
+  - rid: 2056182834072911942
+  - rid: 2056182834072911943
+  - rid: 2056182834072911944
+  - rid: 2056182834072911945
+  - rid: 2056182834072911946
+  - rid: 2056182834072911947
+  - rid: 2056182834072911948
+  Output:
+  - Index: 0
+    VirtualOutputIndex: 6
+    Description:
+      Identifier: basecolor
+      Label: basecolor
+      Index: 0
+      Type: 8
+      Channel: baseColor
+    OutputTexture: {fileID: 2800000, guid: b06e45e95fa9eb1489e1b8465aca1abb, type: 3}
+    sRGB: 1
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _BaseMap
+  - Index: 1
+    VirtualOutputIndex: 7
+    Description:
+      Identifier: normal
+      Label: normal
+      Index: 1
+      Type: 8
+      Channel: normal
+    OutputTexture: {fileID: 2800000, guid: 1e8d9a51c6b8d7743ae95c0ad5ccfce1, type: 3}
+    sRGB: 0
+    IsVirtual: 0
+    IsAlphaAssignable: 0
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _BumpMap
+  - Index: 2
+    VirtualOutputIndex: 8
+    Description:
+      Identifier: roughness
+      Label: roughness
+      Index: 2
+      Type: 8
+      Channel: roughness
+    OutputTexture: {fileID: 2800000, guid: 042721c415fb5a44aa94d0b8ebb49353, type: 3}
+    sRGB: 0
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _RoughnessMap
+  - Index: 3
+    VirtualOutputIndex: 9
+    Description:
+      Identifier: metallic
+      Label: metallic
+      Index: 3
+      Type: 8
+      Channel: metallic
+    OutputTexture: {fileID: 2800000, guid: 7a3abd18d46caac439b6587891b2bd56, type: 3}
+    sRGB: 0
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: roughness
+    InvertAssignedAlpha: 1
+    Flags: 0
+    MaterialTextureTarget: _MetallicGlossMap
+  - Index: 4
+    VirtualOutputIndex: 10
+    Description:
+      Identifier: height
+      Label: height
+      Index: 4
+      Type: 8
+      Channel: height
+    OutputTexture: {fileID: 2800000, guid: 2ce06fa85f626e0498ff1187cdbc6be8, type: 3}
+    sRGB: 1
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _ParallaxMap
+  - Index: 5
+    VirtualOutputIndex: 11
+    Description:
+      Identifier: ambientocclusion
+      Label: ambientocclusion
+      Index: 5
+      Type: 8
+      Channel: ambientOcclusion
+    OutputTexture: {fileID: 2800000, guid: fe4a4d0f74e176245896c4067055a56a, type: 3}
+    sRGB: 0
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _OcclusionMap
+  HasPhysicalSize: 0
+  PhysicalSize: {x: 0, y: 0, z: 0}
+  EnablePhysicalSize: 0
+  Thumbnail: 
+  HasThumbnail: 0
+  CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Substance_graph\" label=\"\" >\n 
+    <presetinput identifier=\"$outputsize\" uid=\"3795302352\" type=\"8\" value=\"10,10\"
+    />\n  <presetinput identifier=\"Grass_Blur\" uid=\"2162265346\" type=\"0\" value=\"1\"
+    />\n  <presetinput identifier=\"Dirt_Blur\" uid=\"2162265381\" type=\"0\" value=\"1\"
+    />\n  <presetinput identifier=\"Mid_Grass_Blur\" uid=\"2162399746\" type=\"0\"
+    value=\"1\" />\n </sbspreset>\n"
+  IsRuntimeOnly: 0
+  GenerateAllOutputs: 1
+  GenerateAllMipmaps: 1
+  OutputMaterial: {fileID: 2100000, guid: cb1133baa3664c34f9150c77b4b043b7, type: 2}
+  DefaultPreset: " <sbspreset pkgurl=\"pkg://Substance_graph\" label=\"\" >\n  <presetinput
+    identifier=\"$outputsize\" uid=\"3795302352\" type=\"8\" value=\"10,10\" />\n
+    </sbspreset>\n"
+  MaterialShader: Universal Render Pipeline/Lit
+  RenderTextures: 0
+  OutputRemaped: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2056182834072911936
+      type: {class: SubstanceInputInt2, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 0
+        Description:
+          Identifier: $outputsize
+          Label: $outputsize
+          GuiGroup: 
+          GuiDescription: 
+          Type: 5
+          WidgetType: 0
+        Data: {x: 10, y: 10}
+        NumericalDescription:
+          DefaultValue: {x: 8, y: 8}
+          MinValue: {x: 0, y: 0}
+          MaxValue: {x: 1, y: 1}
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911937
+      type: {class: SubstanceInputInt, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 1
+        Description:
+          Identifier: $randomseed
+          Label: $randomseed
+          GuiGroup: 
+          GuiDescription: 
+          Type: 4
+          WidgetType: 0
+        Data: 0
+        NumericalDescription:
+          DefaultValue: 0
+          MinValue: 0
+          MaxValue: 1
+          SliderStep: 0.01
+          SliderClamp: 0
+          LabelFalse: 
+          LabelTrue: 
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911938
+      type: {class: SubstanceInputFloat4, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 2
+        Description:
+          Identifier: Grass_Color_1
+          Label: Grass Color 1
+          GuiGroup: 
+          GuiDescription: The <b>Color Output</b> parameter creates a uniform color
+            output image
+          Type: 3
+          WidgetType: 3
+        Data: {x: 0.124121, y: 0.574713, z: 0.030248, w: 1}
+        NumericalDescription:
+          DefaultValue: {x: 0.124121, y: 0.574713, z: 0.030248, w: 1}
+          MinValue: {x: 0, y: 0, z: 0, w: 0}
+          MaxValue: {x: 0, y: 0, z: 0, w: 0}
+          SliderStep: 0
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911939
+      type: {class: SubstanceInputFloat4, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 3
+        Description:
+          Identifier: Grass_Color_2
+          Label: Grass Color 2
+          GuiGroup: 
+          GuiDescription: The <b>Color Output</b> parameter creates a uniform color
+            output image
+          Type: 3
+          WidgetType: 3
+        Data: {x: 0.0656618, y: 0.350575, z: 0.00820057, w: 1}
+        NumericalDescription:
+          DefaultValue: {x: 0.0656618, y: 0.350575, z: 0.00820057, w: 1}
+          MinValue: {x: 0, y: 0, z: 0, w: 0}
+          MaxValue: {x: 0, y: 0, z: 0, w: 0}
+          SliderStep: 0
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911940
+      type: {class: SubstanceInputFloat, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 4
+        Description:
+          Identifier: Grass_Density
+          Label: Grass Hole Density
+          GuiGroup: 
+          GuiDescription: 
+          Type: 0
+          WidgetType: 1
+        Data: 0.53
+        NumericalDescription:
+          DefaultValue: 0.53
+          MinValue: 0
+          MaxValue: 1
+          SliderStep: 0.01
+          SliderClamp: 1
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911941
+      type: {class: SubstanceInputFloat4, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 5
+        Description:
+          Identifier: Ground_Color_1
+          Label: Ground Color 1
+          GuiGroup: 
+          GuiDescription: The <b>Color Output</b> parameter creates a uniform color
+            output image
+          Type: 3
+          WidgetType: 3
+        Data: {x: 0.844828, y: 0.626763, z: 0.212442, w: 1}
+        NumericalDescription:
+          DefaultValue: {x: 0.844828, y: 0.626763, z: 0.212442, w: 1}
+          MinValue: {x: 0, y: 0, z: 0, w: 0}
+          MaxValue: {x: 0, y: 0, z: 0, w: 0}
+          SliderStep: 0
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911942
+      type: {class: SubstanceInputFloat4, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 6
+        Description:
+          Identifier: Ground_Color_2
+          Label: Ground Color 2
+          GuiGroup: 
+          GuiDescription: The <b>Color Output</b> parameter creates a uniform color
+            output image
+          Type: 3
+          WidgetType: 3
+        Data: {x: 0.58046, y: 0.385379, z: 0.013578, w: 1}
+        NumericalDescription:
+          DefaultValue: {x: 0.58046, y: 0.385379, z: 0.013578, w: 1}
+          MinValue: {x: 0, y: 0, z: 0, w: 0}
+          MaxValue: {x: 0, y: 0, z: 0, w: 0}
+          SliderStep: 0
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911943
+      type: {class: SubstanceInputFloat, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 7
+        Description:
+          Identifier: Roughness
+          Label: Roughness
+          GuiGroup: 
+          GuiDescription: The <b>Color Output</b> parameter creates a uniform color
+            output image
+          Type: 0
+          WidgetType: 3
+        Data: 0.481836
+        NumericalDescription:
+          DefaultValue: 0.481836
+          MinValue: 0
+          MaxValue: 0
+          SliderStep: 0
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911944
+      type: {class: SubstanceInputFloat, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 8
+        Description:
+          Identifier: Grass_Blur
+          Label: Grass Blur
+          GuiGroup: 
+          GuiDescription: The <b>Intensity</b> parameter sets the intensity of the
+            blur in pixels
+          Type: 0
+          WidgetType: 1
+        Data: 1
+        NumericalDescription:
+          DefaultValue: 2.14
+          MinValue: 0
+          MaxValue: 1
+          SliderStep: 0.01
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911945
+      type: {class: SubstanceInputFloat, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 9
+        Description:
+          Identifier: Dirt_Blur
+          Label: Dirt Blur
+          GuiGroup: 
+          GuiDescription: The <b>Intensity</b> parameter sets the intensity of the
+            blur in pixels
+          Type: 0
+          WidgetType: 1
+        Data: 1
+        NumericalDescription:
+          DefaultValue: 1.84
+          MinValue: 0
+          MaxValue: 1
+          SliderStep: 0.01
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911946
+      type: {class: SubstanceInputFloat4, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 10
+        Description:
+          Identifier: Mid_Color_1
+          Label: Mid Color 1
+          GuiGroup: 
+          GuiDescription: The <b>Color Output</b> parameter creates a uniform color
+            output image
+          Type: 3
+          WidgetType: 3
+        Data: {x: 0.518735, y: 0.882051, z: 0.0464237, w: 1}
+        NumericalDescription:
+          DefaultValue: {x: 0.518735, y: 0.882051, z: 0.0464237, w: 1}
+          MinValue: {x: 0, y: 0, z: 0, w: 0}
+          MaxValue: {x: 0, y: 0, z: 0, w: 0}
+          SliderStep: 0
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911947
+      type: {class: SubstanceInputFloat4, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 11
+        Description:
+          Identifier: Mid_Color_2
+          Label: Mid Color 2
+          GuiGroup: 
+          GuiDescription: The <b>Color Output</b> parameter creates a uniform color
+            output image
+          Type: 3
+          WidgetType: 3
+        Data: {x: 0.307018, y: 0.541667, z: 0, w: 1}
+        NumericalDescription:
+          DefaultValue: {x: 0.307018, y: 0.541667, z: 0, w: 1}
+          MinValue: {x: 0, y: 0, z: 0, w: 0}
+          MaxValue: {x: 0, y: 0, z: 0, w: 0}
+          SliderStep: 0
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182834072911948
+      type: {class: SubstanceInputFloat, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 12
+        Description:
+          Identifier: Mid_Grass_Blur
+          Label: Mid Grass Blur
+          GuiGroup: 
+          GuiDescription: The <b>Intensity</b> parameter sets the intensity of the
+            blur in pixels
+          Type: 0
+          WidgetType: 1
+        Data: 1
+        NumericalDescription:
+          DefaultValue: 3.48
+          MinValue: 0
+          MaxValue: 1
+          SliderStep: 0.01
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []

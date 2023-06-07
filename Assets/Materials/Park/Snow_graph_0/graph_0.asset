@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed5864476f84ce4b85454db09ca4eaa, type: 3}
+  m_Name: graph_0
+  m_EditorClassIdentifier: 
+  AssetPath: Assets/Materials/Snow.sbsar
+  OutputPath: Assets/Materials/Snow_graph_0
+  RawData: {fileID: -244192453324840774, guid: a7145984547ff944f9af15f4619702ec, type: 3}
+  Name: graph_0
+  IsRoot: 1
+  FlagedForDelete: 0
+  GUID: f99c86f9-eb0a-4a74-b043-da47b5a591ca
+  Index: 0
+  Input:
+  - rid: 2056182962479169569
+  - rid: 2056182962479169570
+  - rid: 2056182962479169571
+  - rid: 2056182962479169572
+  - rid: 2056182962479169573
+  Output:
+  - Index: 0
+    VirtualOutputIndex: 1
+    Description:
+      Identifier: Base_Color
+      Label: Base_Color
+      Index: 0
+      Type: 8
+      Channel: baseColor
+    OutputTexture: {fileID: 2800000, guid: 05405791ad488b543a1388e789ab76a4, type: 3}
+    sRGB: 1
+    IsVirtual: 0
+    IsAlphaAssignable: 1
+    AlphaChannel: 
+    InvertAssignedAlpha: 0
+    Flags: 0
+    MaterialTextureTarget: _BaseMap
+  HasPhysicalSize: 0
+  PhysicalSize: {x: 0, y: 0, z: 0}
+  EnablePhysicalSize: 0
+  Thumbnail: 
+  HasThumbnail: 0
+  CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Substance_graph\" label=\"\" >\n
+    </sbspreset>\n"
+  IsRuntimeOnly: 0
+  GenerateAllOutputs: 1
+  GenerateAllMipmaps: 1
+  OutputMaterial: {fileID: 2100000, guid: 9d161fcf1a50df344a1637ecf34286f5, type: 2}
+  DefaultPreset: " <sbspreset pkgurl=\"pkg://Substance_graph\" label=\"\" >\n  <presetinput
+    identifier=\"$outputsize\" uid=\"3795302352\" type=\"8\" value=\"10,10\" />\n</sbspreset>\n"
+  MaterialShader: Universal Render Pipeline/Lit
+  RenderTextures: 0
+  OutputRemaped: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2056182962479169569
+      type: {class: SubstanceInputInt2, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 0
+        Description:
+          Identifier: $outputsize
+          Label: $outputsize
+          GuiGroup: 
+          GuiDescription: 
+          Type: 5
+          WidgetType: 0
+        Data: {x: 8, y: 8}
+        NumericalDescription:
+          DefaultValue: {x: 8, y: 8}
+          MinValue: {x: 0, y: 0}
+          MaxValue: {x: 1, y: 1}
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182962479169570
+      type: {class: SubstanceInputInt, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 1
+        Description:
+          Identifier: $randomseed
+          Label: $randomseed
+          GuiGroup: 
+          GuiDescription: 
+          Type: 4
+          WidgetType: 0
+        Data: 0
+        NumericalDescription:
+          DefaultValue: 0
+          MinValue: 0
+          MaxValue: 1
+          SliderStep: 0.01
+          SliderClamp: 0
+          LabelFalse: 
+          LabelTrue: 
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182962479169571
+      type: {class: SubstanceInputFloat4, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 2
+        Description:
+          Identifier: Color_1
+          Label: Color 1
+          GuiGroup: 
+          GuiDescription: The <b>Color Output</b> parameter creates a uniform color
+            output image
+          Type: 3
+          WidgetType: 3
+        Data: {x: 0.775, y: 0.775, z: 0.775, w: 1}
+        NumericalDescription:
+          DefaultValue: {x: 0.775, y: 0.775, z: 0.775, w: 1}
+          MinValue: {x: 0, y: 0, z: 0, w: 0}
+          MaxValue: {x: 0, y: 0, z: 0, w: 0}
+          SliderStep: 0
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182962479169572
+      type: {class: SubstanceInputFloat4, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 3
+        Description:
+          Identifier: Color_2
+          Label: Color 2
+          GuiGroup: 
+          GuiDescription: The <b>Color Output</b> parameter creates a uniform color
+            output image
+          Type: 3
+          WidgetType: 3
+        Data: {x: 0.65, y: 0.65, z: 0.65, w: 1}
+        NumericalDescription:
+          DefaultValue: {x: 0.65, y: 0.65, z: 0.65, w: 1}
+          MinValue: {x: 0, y: 0, z: 0, w: 0}
+          MaxValue: {x: 0, y: 0, z: 0, w: 0}
+          SliderStep: 0
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
+    - rid: 2056182962479169573
+      type: {class: SubstanceInputFloat, ns: Adobe.Substance.Input, asm: Adobe.Substance}
+      data:
+        Index: 4
+        Description:
+          Identifier: Blur_Itensity
+          Label: Blur Itensity
+          GuiGroup: 
+          GuiDescription: The <b>Intensity</b> parameter sets the intensity of the
+            blur in pixels
+          Type: 0
+          WidgetType: 1
+        Data: 0.33
+        NumericalDescription:
+          DefaultValue: 0.33
+          MinValue: 0
+          MaxValue: 1
+          SliderStep: 0.01
+          SliderClamp: 0
+          EnumValueCount: 0
+          EnumValues: []
