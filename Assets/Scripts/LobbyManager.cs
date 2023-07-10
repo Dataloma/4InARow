@@ -56,6 +56,7 @@ public class LobbyManager : NetworkBehaviour
     {
         await leaveLobby();
         var options = new CreateLobbyOptions();
+        
         options.IsPrivate = false;
         try
         {
@@ -129,6 +130,7 @@ public class LobbyManager : NetworkBehaviour
 
     private async Task updateMylobbie()
     {
+        
         if (mylobbie == null) { return; }
         mylobbie = await LobbyService.Instance.GetLobbyAsync(mylobbie.Id);
         if (mylobbie.HostId == AuthenticationService.Instance.PlayerId)
@@ -141,15 +143,15 @@ public class LobbyManager : NetworkBehaviour
         {
             if (mylobbie.HostId == AuthenticationService.Instance.PlayerId)
             {
-                netManagerScript.startAsHost();
+                netManagerScript.startAsHost(mylobbie.Id);
                 Debug.Log("started host");
                 StopCoroutine(mylobbieHeartbeat);
                 StopCoroutine(mylobbieUpdate);
             }
-            else
+            else if (mylobbie.Data!=null)
             {
-
-                netManagerScript.startClient();
+                if (!mylobbie.Data.ContainsKey("RelayServerData")) { return; }
+                netManagerScript.startClient(mylobbie.Data["RelayServerData"].Value);
                 StopCoroutine(mylobbieUpdate);
 
             }
@@ -164,10 +166,7 @@ public class LobbyManager : NetworkBehaviour
         }
     }
     
-    private void startmatch()
-    {
-        Debug.Log("startmatch!!!!");
-    }
+    
     private async Task leaveLobby()
     {
         if (mylobbie != null){

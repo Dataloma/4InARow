@@ -12,7 +12,7 @@ public class UnityServicesManager : MonoBehaviour
     private void Awake()
     {
         mainMenu = DevTools.FindGameObject("MainMenu").GetComponent<MainMenuManager>();
-        PlayerPrefs.SetString("Test", "Testicles");
+        
     }
         
     void Start()
