@@ -59,6 +59,7 @@ public class NetworkManagerScript : MonoBehaviour
         {
             var allocation = await RelayService.Instance.CreateAllocationAsync(2);
             var joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            print(allocation);
             return (new RelayServerData(allocation, "dtls"),joinCode);
         }
         catch (Exception ex)
@@ -66,6 +67,8 @@ public class NetworkManagerScript : MonoBehaviour
             Debug.Log(ex.Message);
             Debug.LogError(ex);
         }
+
+
         return (new RelayServerData(),"");
     }
     private async Task<(RelayServerData, string)> getRelayServerDataFromJoinCode(string joinCode)

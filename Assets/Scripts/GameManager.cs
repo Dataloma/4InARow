@@ -1,6 +1,8 @@
 using DeveloperTools;
 using System;
+using System.Collections;
 using Unity.Netcode;
+using Unity.Services.Lobbies;
 using UnityEngine;
 public class GameManager : NetworkBehaviour
 {
@@ -10,7 +12,11 @@ public class GameManager : NetworkBehaviour
         Yellow = 2
     }
 
+
+
+
     public bool myTurn { get; private set; } = false;
+    public bool gameStarted { get; private set; } = false;
     private playerColor myColor;
 
     private NetworkManager netManager;
@@ -61,6 +67,18 @@ public class GameManager : NetworkBehaviour
         {
             myColor = playerColor.Yellow;
             myTurn = false;
+        }
+
+    }
+    private void Start()
+    {
+        if (IsOwner)
+        {
+        StartCoroutine(waitForPlayer());
+        }
+        else
+        {
+            gameStarted = true;
         }
 
     }
@@ -215,5 +233,13 @@ public class GameManager : NetworkBehaviour
         }
         piece.GetComponent<NetworkObject>().Spawn();
     }
-   
+
+    private IEnumerator waitForPlayer()
+    {
+        while (true)
+        {
+            if (netManager.ConnectedClients.Count==2) { gameStarted = true; yield break; }
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
 }

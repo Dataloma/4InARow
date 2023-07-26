@@ -15,6 +15,7 @@ public class Hit : NetworkBehaviour
     }
     public void OnMouseDown()
     {
+        if (!gm.gameStarted) {return;}
         if (gm.myTurn)
         {
             if (Time.time - gm.lastPlayed >= gm.cooldown)
